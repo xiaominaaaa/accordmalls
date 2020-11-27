@@ -1,15 +1,17 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 	<head>
 		<meta charset="utf-8" />
 		<title>雅阁后台管理系统  </title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
-		<link rel="stylesheet" href="assets/css/ace.min.css" />
-		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
-		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
-        <link rel="stylesheet" href="css/style.css"/>
+		<link  href="assets/css/bootstrap.min.css"  rel="stylesheet" />
+		<link rel="stylesheet"  href="assets/css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="assets/css/ace.min.css" />
+		<link rel="stylesheet"  href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet"  href="assets/css/ace-skins.min.css" />
+        <link rel="stylesheet"  href="css/style.css"/>
+		<link rel="stylesheet"  href="css/home.css"/>
 		<script src="assets/js/ace-extra.min.js"></script>
 		<script src="js/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript">
@@ -26,13 +28,13 @@
 	
 	</head>
 	<body>
-		<div class="navbar navbar-default" id="navbar">
+		<div class="navbar navbar-default" id="navbar" th:fragment="adminhead">
         <script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
 			</script>
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
-			   
+
 				<a href="indexbackstage.html" class="navbar-brand">
 					<h6>&nbsp;</h6>
 					<p style="font-size: 25px;">&nbsp;&nbsp;雅阁商城后台</p>
@@ -41,18 +43,18 @@
 					<!--
                 	作者：482753434@qq.com
                 	时间：2020-11-12
-                	描述  
-						<small>					
+                	描述
+						<small>
 						<img src="images/logo.png" width="470px">
 						</small>
 						-->
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
 				<div class="navbar-header operating pull-left">
-				
+
 				</div>
 			   <div class="navbar-header pull-right" role="navigation">
-               <ul class="nav ace-nav">	
+               <ul class="nav ace-nav">
                 <li class="light-blue">
 				<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 				 <span class="time"><em id="time"></em></span><span class="user-info"><small>欢迎光临,</small>超级管理员</span>
@@ -91,15 +93,15 @@
 							<span class="btn btn-danger"></span>
 						</div>
 					</div><!-- #sidebar-shortcuts -->
-					<div id="menu_style" class="menu_style">
+					<div id="menu_style" class="menu_style" >
 					<ul class="nav nav-list" id="nav_list">
 				    
-            <li class="home"><a href="javascript:void(0)" name="home.html" class="iframeurl" title=""><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
-			<li class="home"><a  href="javascript:void(0)" name="commodity.do"  title="产品类表" class="iframeurl"><i class="icon-double-angle-right"></i>产品类表</a></li>
-			<li class="home"><a href="javascript:void(0)" name="Orderform.html" title="订单管理"  class="iframeurl"><i class="icon-double-angle-right"></i>订单管理</a></li>
-            <li class="home"><a href="javascript:void(0)" name="userQuery.do" title="用户列表"  class="iframeurl"><i class="icon-double-angle-right"></i>会员列表</a></li>
-            <li class="home"><a href="javascript:void(0)" name="adminQuery.do" title="管理员列表" class="iframeurl"><i class="icon-double-angle-right"></i>管理员列表</a></li>
-			<li class="home"><a href="javascript:void(0)" name="admin_info.html" title="个人信息" class="iframeurl"><i class="icon-double-angle-right"></i>个人信息</a></li>
+            <li class="home"><a  href="javascript:void(0)"  th:name="@{admin/home}" title ="系统首页" class="iframeurl" ><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
+			<li class="home"><a  href="javascript:void(0)" th:name="@{admin/product}"  title="产品类表" class="iframeurl"><i class="icon-double-angle-right"></i>产品类表</a></li>
+			<li class="home"><a href="javascript:void(0)" th:name="@{admin/order}" title="订单管理"  class="iframeurl"><i class="icon-double-angle-right"></i>订单管理</a></li>
+            <li class="home"><a href="javascript:void(0)" th:name="@{admin/user}" title="用户列表"  class="iframeurl"><i class="icon-double-angle-right"></i>会员列表</a></li>
+            <li class="home"><a href="javascript:void(0)" th:name="@{admin/adlist}" title="管理员列表" class="iframeurl"><i class="icon-double-angle-right"></i>管理员列表</a></li>
+			<li class="home"><a href="javascript:void(0)"th:name="@{admin/selfinfo}" title="个人信息" class="iframeurl"><i class="icon-double-angle-right"></i>个人信息</a></li>
 					</ul>
 					</div>
 					<script type="text/javascript">
@@ -136,7 +138,7 @@
 						</ul>
 					</div>
                     
-                 <iframe id="iframe" style="border:0; width:100%; background-color:#FFF;"name="iframe" frameborder="0" src="home.html">  </iframe>
+                 <iframe id="iframe" style="border:0; width:100%; background-color:#FFF;"name="iframe" frameborder="0" th:src="@{admin/home}" >  </iframe>
 				 
 
 <!-- /.page-content -->
