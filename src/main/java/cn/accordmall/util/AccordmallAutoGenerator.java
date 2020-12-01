@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 
 import java.util.ArrayList;
@@ -97,6 +98,8 @@ public class AccordmallAutoGenerator {
         StrategyConfig strategyConfig = new StrategyConfig();
         //设置控制器父类实体
         strategyConfig.setSuperControllerClass(BaseController.class);
+        //下划线转驼峰
+        strategyConfig.setNaming(NamingStrategy.underline_to_camel);
         //lombok
         strategyConfig.setEntityLombokModel(true);
 

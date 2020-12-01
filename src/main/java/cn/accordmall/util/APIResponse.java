@@ -34,7 +34,7 @@ public class APIResponse<T> {
         return new APIResponse(msg, CommonsConst.APICommonsConst.SUCCESS_CODE,data);
     }
 
-    public static APIResponse successData(String msg){
+    public static APIResponse successMsg(String msg){
         return new APIResponse(msg, CommonsConst.APICommonsConst.SUCCESS_CODE,"");
     }
 

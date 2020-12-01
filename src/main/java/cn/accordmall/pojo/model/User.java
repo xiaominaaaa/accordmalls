@@ -3,6 +3,7 @@ package cn.accordmall.pojo.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,7 +26,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户id")
-    @TableId(value = "userId", type = IdType.AUTO)
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     @ApiModelProperty(value = "用户名")
@@ -45,6 +46,12 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "用户角色，1为管理员，0为普通用户")
     private Integer role;
+
+    @ApiModelProperty(value = "加入时间")
+    private LocalDateTime joinDate;
+
+    @ApiModelProperty(value = "用户头像")
+    private String userImg;
 
 
 }

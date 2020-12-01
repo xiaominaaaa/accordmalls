@@ -16,37 +16,4 @@ public class HomeController {
     public String indexAdmin(){
         return "webapp/indexbackstage";
     }
-
-    @GetMapping("admin/home")
-    public  String  homeAdmin(){
-        return  "webapp/home";
-    }
-
-    @GetMapping("admin/product")
-    public  String  ProductAdmin(){
-        return  "webapp/products_list";
-    }
-
-    @GetMapping("admin/user")
-    public  String  UserAdmin(){
-        return  "webapp/user_list";
-    }
-
-
-    @GetMapping("admin/order")
-    public  String  OrderAdmin(){
-        return  "webapp/Orderform";
-    }
-
-
-    @GetMapping("admin/adlist")
-    public  String  ListAdmin(){
-        return  "webapp/administrator";
-    }
-
-
-    @GetMapping("admin/selfinfo")
-    public  String  ImformationAdmin(){
-        return  "webapp/admin_info";
-    }
 }

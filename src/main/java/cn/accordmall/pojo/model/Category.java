@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,7 +24,7 @@ public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "商品类别")
-    @TableId(value = "categoryId", type = IdType.AUTO)
+    @TableId(value = "category_id", type = IdType.AUTO)
     private Integer categoryId;
 
     @ApiModelProperty(value = "类别名")

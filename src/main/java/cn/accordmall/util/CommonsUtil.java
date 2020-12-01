@@ -4,7 +4,6 @@ import cn.accordmall.pojo.model.User;
 import cn.accordmall.webconst.WebConst;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -30,7 +29,7 @@ public class CommonsUtil {
     /**
      * 取得用户session
      */
-    public User userGetBySession(HttpServletRequest request){
+    public static User userGetBySession(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute(WebConst.USER_SESSION);
         return user;
     }
@@ -38,12 +37,11 @@ public class CommonsUtil {
     /**
      * 取得用户id
      */
-    public Integer userGetUidBySession(HttpServletRequest request){
+    public static Integer userGetUidBySession(HttpServletRequest request){
         User user = userGetBySession(request);
         if (user == null)
             return null;
         return user.getUserId();
     }
-
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="renderer" content="webkit|ie-comp|ie-stand" />
@@ -23,16 +23,18 @@
 <body>
 <div class=" page-content clearfix">
  <div id="products_style">
+     <form id="proform" >
     <div class="search_style">
       <ul class="search_content clearfix">
-       <li><label class="l_f">产品名称</label><input name="" type="text"  class="text_add" placeholder="输入品牌名称"  style=" width:250px"/></li>
-       <li style="width:90px;"><button type="button" class="btn_search"><i class="icon-search"></i>查询</button></li>
+       <li><label class="l_f">产品名称</label><input id="product" name="productSelect" type="text"  class="text_add" placeholder="输入品牌名称"  style=" width:250px"/></li>
+       <li style="width:90px;"><input id="bu" type="button" th:value="查询" class="btn_search"><i class="icon-search"></i></input></li>
       </ul>
     </div>
+     </form>
      <div class="border clearfix">
        <span class="l_f">
-        <a href="picture-add.html" title="添加商品" class="btn btn-warning Order_form"><i class="icon-plus"></i>添加商品</a>
-        <a href="javascript:ovid()" class="btn btn-danger"><i class="icon-trash"></i>批量删除</a>
+        <a  th:href="@{/admin/productadd}"  title="添加商品" class="btn btn-warning Order_form"><i class="icon-plus"></i>添加商品</a>
+
        </span>
        <span class="r_f">共：<b>2334</b>件商品</span>
      </div>
@@ -41,7 +43,6 @@
        <table class="table table-striped table-bordered table-hover" id="sample-table">
 		<thead>
 		 <tr>
-				<th width="25px"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
 				<th width="80px">产品编号</th>
 				<th width="250px">产品名称</th>
 				<th width="100px">单价</th>	
@@ -49,39 +50,39 @@
 				<th width="200px">操作</th>
 			</tr>
 		</thead>
-	<tbody>
-	<c:forEach items="${clist }" var="list">
-     <tr>
-        <td width="25px"><label><input type="checkbox" class="ace" ><span class="lbl"></span></label></td>
-        <td width="80px">${list.commodityId }</td>               
-        <td width="250px">${list.commodityName }</td>
-        <td width="100px">${list.price }</td>         
-        <td width="180px"><fmt:formatDate value="${list.launchTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+	<tbody id="tbody">
+	<th:block th:each="comm,commStat:${commlist}" id="ths">
+        <tr>
+        <td width="80px" th:text="${comm.commodityId}"></td>
+        <td width="250px" th:text="${comm.commodityName}"></td>
+        <td width="100px" th:text="${comm.price}"></td>
+        <td width="180px" th:text="${comm.launchTime}"></td>
         <td class="td-manage">
-        <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" ><i class="icon-edit bigger-120"></i></a> 
-        <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-warning" ><i class="icon-trash  bigger-120"></i></a>
-       </td>
-	  </tr>
-	  </c:forEach>
+            <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" ><i class="icon-edit bigger-120"></i></a>
+            <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-warning" ><i class="icon-trash  bigger-120"></i></a>
+        </td>
+    </tr>
+    </th:block>
     </tbody>
     </table>
     </div>     
   </div>
  </div>
-  <div class="page-icon">
+  <div class="page-icon" >
 		<c:set var="startNum" value="${p.current-5<1?1:p.current-5 }" />
-		<c:set var="endNum"
-			value="${p.current+5>p.getPages()? p.getPages():p.current+5 }" />
-		<c:if test="${p.current!=1 }">
-			<a href="javascript:void(0);" data-page="1" class="page-disabled">第一页</a>
-		</c:if>
-		<c:forEach begin="${startNum }" end="${p.getPages() }" var="i">
-			<a href="javascript:void(0);" data-page="${i }">${i }</a>
-		</c:forEach>
-		<c:if test="${p.current!=p.getPages() }">
-			<a href="javascript:void(0);" data-page="${p.getPages() }"
-				class="page-next">最后一页</a>
-		</c:if>
+      <c:set var="endNum"
+             value="${p.current+5>p.getPages()? p.getPages():p.current+5 }" />
+      <c:if test="${p.current!=1 }">
+          <a href="javascript:void(0);" data-page="1" class="page-disabled">第一页</a>
+      </c:if>
+      <c:forEach begin="${startNum }" end="${p.getPages() }" var="i">
+          <a href="javascript:void(0);" data-page="${i }">${i }</a>
+      </c:forEach>
+      <c:if test="${p.current!=p.getPages() }">
+          <a href="javascript:void(0);" data-page="${p.getPages() }"
+             class="page-next">最后一页</a>
+      </c:if>
+
 	</div>
 	<script type="text/javascript"> 
 	var pageList = document.querySelector(".page-icon").querySelectorAll("a[data-page]"); 
@@ -96,5 +97,47 @@
 			} 
 		}
 	</script>
+    <script>
+        var namee = $("#product");
+        var proform = $("#proform");
+        var button = $("#bu");
+        button.on("click",function () {
+            console.log(namee.val());
+            $.ajax({
+                type: "POST",
+                url: "/admin/product/0",
+                dataType:"json",
+                data: {
+                    name:namee.val()
+                },
+                success:function (result) {
+                        console.log(result)
+                   var tboyd = $("#tbody");
+                        //清除原有子节点
+                    tboyd.empty();
+                    //添加新的子节点
+                    var data = $(result.data);
+
+                    $.each(data,function (index,obj) {
+                        console.log(obj)
+                        console.log(index)
+                        var trs = $($.parseHTML(" <tr>\n" +
+                            "        <td width=\"25px\"><label><input type=\"checkbox\" class=\"ace\" ><span class=\"lbl\"></span></label></td>\n" +
+                            "        <td width=\"80px\" >"+obj.categoryId+"</td>\n" +
+                            "        <td width=\"250px\" >"+obj.commodityName+"</td>\n" +
+                            "        <td width=\"100px\" >"+obj.price+"</td>\n" +
+                            "        <td width=\"180px\" >"+obj.launchTime+"</td>\n" +
+                            "        <td class=\"td-manage\">\n" +
+                            "            <a title=\"编辑\" onclick=\"member_edit('编辑','member-add.html','4','','510')\" href=\"javascript:;\"  class=\"btn btn-xs btn-info\" ><i class=\"icon-edit bigger-120\"></i></a>\n" +
+                            "            <a title=\"删除\" href=\"javascript:;\"  onclick=\"member_del(this,'1')\" class=\"btn btn-xs btn-warning\" ><i class=\"icon-trash  bigger-120\"></i></a>\n" +
+                            "        </td>\n" +
+                            "    </tr>"));
+                        tboyd.append(trs);
+                    });
+                }
+            });
+
+        });
+    </script>
 </body>
 </html>

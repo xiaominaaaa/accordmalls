@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -51,9 +51,7 @@
 				<!---->
 				<div class="border clearfix">
 					<span class="l_f"> <a href="user_add.html" id="member_add"
-						class="btn btn-warning"><i class="icon-plus"></i>添加用户</a> <a
-						href="javascript:if(confirm('确认删除吗?'))window.location='userDelete.do?userId=${list.userId}'" class="btn btn-danger"><i
-							class="icon-trash"></i>批量删除</a>
+						class="btn btn-warning"><i class="icon-plus"></i>添加用户</a>
 					</span> <span class="r_f">共：<b>2345</b>条
 					</span>
 				</div>
@@ -63,8 +61,6 @@
 						id="sample-table">
 						<thead>
 							<tr>
-								<th width="25"><label><input type="checkbox" class="ace">
-									<span class="lbl"></span></label></th>
 								<th width="80">序号</th>
 								<th width="80">ID</th>
 								<th width="100">用户名</th>
@@ -78,7 +74,6 @@
 						
 							<c:forEach items="${p.records }" var="list" varStatus="vs">
 								<tr>
-									<td><label><input type="checkbox" class="ace" /><span class="lbl"></span></label></td>
 									<td>${vs.count}</td>
 									<td>${list.userId}</td>
 									<td>${list.userName }</td>

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,7 +25,7 @@ public class Evaluate implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "评价id")
-    @TableId(value = "evaluateId", type = IdType.AUTO)
+    @TableId(value = "evaluate_id", type = IdType.AUTO)
     private Integer evaluateId;
 
     @ApiModelProperty(value = "用户id")
@@ -39,9 +39,6 @@ public class Evaluate implements Serializable {
 
     @ApiModelProperty(value = "评价时间")
     private LocalDateTime evaluateTime;
-
-    @ApiModelProperty(value = "1为已评价，0为未评价")
-    private Integer state;
 
 
 }

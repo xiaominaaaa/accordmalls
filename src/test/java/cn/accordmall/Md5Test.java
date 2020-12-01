@@ -10,6 +10,6 @@ public class Md5Test {
 
     @Test
     void test() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        CommonsUtil.md5Pass("");
+        CommonsUtil.md5Pass("admin123456");
     }
 }

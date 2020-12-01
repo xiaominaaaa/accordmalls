@@ -1,5 +1,6 @@
 package cn.accordmall.pojo.model;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,14 +25,20 @@ public class Cart implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "购物车id")
-    @TableId(value = "cartId", type = IdType.AUTO)
+    @TableId(value = "cart_id", type = IdType.AUTO)
     private Integer cartId;
 
     @ApiModelProperty(value = "用户id")
     private Integer userId;
 
-    @ApiModelProperty(value = "购物车详情id")
-    private Integer cartDetailsId;
+    @ApiModelProperty(value = "商品id")
+    private Integer commodityId;
+
+    @ApiModelProperty(value = "商品数量")
+    private Integer number;
+
+    @ApiModelProperty(value = "购物车商品总价")
+    private BigDecimal cartPrices;
 
 
 }

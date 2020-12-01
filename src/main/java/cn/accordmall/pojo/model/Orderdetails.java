@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,8 +24,11 @@ public class Orderdetails implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "订单详情id")
-    @TableId(value = "orderDetailsId", type = IdType.AUTO)
+    @TableId(value = "order_details_id", type = IdType.AUTO)
     private Integer orderDetailsId;
+
+    @ApiModelProperty(value = "订单ID")
+    private Integer orderId;
 
     @ApiModelProperty(value = "商品id")
     private Integer commodityId;

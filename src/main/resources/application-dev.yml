@@ -11,7 +11,7 @@ swagger:
 #druid 数据源
 sprin:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/accordmall?useSSL=false&useUnicode=true&characherEncoding=utf8&serverTimezone=PRC
     username: root
     password: 123456
@@ -26,3 +26,15 @@ sprin:
     maxPoolPreparedStatemetPerConnectionSeze: 20
     useGlobalDataSourceStat: true
     connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+#log4j
+#logging:
+#  level: debug
+#  cn.accordmall.mapper: debug
+
+
+#mybaties-plus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

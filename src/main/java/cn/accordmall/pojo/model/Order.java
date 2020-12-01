@@ -1,5 +1,6 @@
 package cn.accordmall.pojo.model;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,7 +26,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "订单id")
-    @TableId(value = "orderId", type = IdType.AUTO)
+    @TableId(value = "order_id", type = IdType.AUTO)
     private Integer orderId;
 
     @ApiModelProperty(value = "用户id")
@@ -34,14 +35,17 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "收货地址id")
     private Integer addressId;
 
-    @ApiModelProperty(value = "订单详情id")
-    private Integer orderDetailsId;
+    @ApiModelProperty(value = "订单总价")
+    private BigDecimal orderPrices;
 
     @ApiModelProperty(value = "下单时间")
-    private LocalDateTime paymenttime;
+    private LocalDateTime paymentTime;
 
-    @ApiModelProperty(value = "订单状态，0为未付款，1为待收货，2为以收货")
-    private Integer orderstate;
+    @ApiModelProperty(value = "订单状态，0为未付款，1为已收货")
+    private Integer orderState;
+
+    @ApiModelProperty(value = "1为已评价，0为未评价")
+    private Integer evaluateState;
 
 
 }

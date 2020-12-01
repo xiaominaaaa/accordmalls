@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author laosi
- * @since 2020-11-24
+ * @since 2020-12-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,7 +24,7 @@ public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "地址id")
-    @TableId(value = "addressId", type = IdType.AUTO)
+    @TableId(value = "address_id", type = IdType.AUTO)
     private Integer addressId;
 
     @ApiModelProperty(value = "用户id")
