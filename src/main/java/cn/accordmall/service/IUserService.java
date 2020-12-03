@@ -17,13 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 public interface IUserService extends IService<User> {
 
     /**
-     * 用户验证
+     * 用户验证N
      * @param username
      * @param password
      * @return
      */
     APIResponse auth(String username, String password, HttpServletRequest request);
 
-
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    APIResponse reg(User user);
 
 }

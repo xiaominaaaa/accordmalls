@@ -11,17 +11,15 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 import cn.accordmall.controller.BaseController;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -54,6 +52,11 @@ public class UserController extends BaseController {
             return APIResponse.failMsg(ErrorConst.UserError.PASSWORD_IS_NULL);
         return userService.auth(username, password,request);
     }
+    @GetMapping("/login")
+    @ApiOperation("用户登录")
+    public String login(HttpServletRequest request){
+        return "webapp/login";
+    }
 
     @PostMapping("/layout")
     @ApiOperation("用户注销")
@@ -67,6 +70,12 @@ public class UserController extends BaseController {
         return APIResponse.successMsg(CommonsConst.UserConst.SUCCESS_USER_LAYOUT);
     }
 
+    @GetMapping("/reg")
+    @ApiOperation("用户注册页")
+    public String toreg(HttpServletRequest request){
+      return "webapp/reg";
+    }
+
     @PostMapping("/reg")
     @ApiOperation("用户注册")
     @ResponseBody
@@ -77,13 +86,13 @@ public class UserController extends BaseController {
                            @RequestParam(name = "password")
                            @ApiParam(name = "password",required = true,value = "密码")
                            String password,
-                           @RequestParam(name = "sex")
+                           @RequestParam(name = "sex",defaultValue = "1",required = false)
                            @ApiParam(name = "sex",required = true,value = "性别")
                            Integer sex,
                            @RequestParam(name = "telephone")
                            @ApiParam(name = "telephone",required = true,value = "电话号码")
                            String telephone,
-                           @RequestParam(name = "birthday")
+                           @RequestParam(name = "birthday",required = false)
                            @ApiParam(name = "birthday",required = true,value = "生日")
                            LocalDate birthday,
                            @RequestParam(name = "role")
@@ -98,19 +107,21 @@ public class UserController extends BaseController {
             return APIResponse.failMsg(ErrorConst.UserError.SEX_IS_OTHER);
         if(StringUtils.isBlank(telephone))
             return APIResponse.failMsg(ErrorConst.UserError.TELEPHONE_IS_INNEGAL);
-        if(birthday == null)
-            return APIResponse.failMsg(ErrorConst.UserError.BIRTHDAY_IS_NULL);
+        if(birthday == null){
+            birthday =LocalDate.of(1970,1,1);
+        }
         if(role == null & (role != 1 || role != 0))
             return APIResponse.failMsg(ErrorConst.UserError.ROLE_IS_INNEGAL);
-        User user = null;
+        User user = new User();
         user.setUserName(username);
         user.setPassword(password);
         user.setSex(sex+"");
         user.setBirthday(birthday);
         user.setTelephone(telephone);
+        user.setJoinDate(LocalDateTime.now());
         user.setRole(role);
 
-        return null;
+        return userService.reg(user);
     }
 
 

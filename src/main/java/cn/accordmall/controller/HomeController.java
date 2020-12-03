@@ -1,9 +1,11 @@
 package cn.accordmall.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@Api("首页各种跳转")
 public class HomeController {
 
 

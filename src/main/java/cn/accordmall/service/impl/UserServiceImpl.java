@@ -46,4 +46,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return APIResponse.failMsg(ErrorConst.UserError.USER_IS_EMPIY);
     }
+
+    @Override
+    public APIResponse reg(User user) {
+        //用户名是否重复
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+        userQueryWrapper.eq("user_name",user.getUserName());
+        Integer count = userMapper.selectCount(userQueryWrapper);
+        if(count > 0 )
+            return APIResponse.failMsg(ErrorConst.UserError.USER_IS_EXIST);
+
+        //插入
+        try {
+            String password = CommonsUtil.md5Pass(user.getUserName()+user.getPassword());
+            user.setPassword(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        int flag =  userMapper.insert(user);
+        if(flag > 0)
+            return APIResponse.successMsg(CommonsConst.UserConst.SUCCESS_USER_REG);
+
+        return APIResponse.failMsg(ErrorConst.UserError.USER_FAIL_REG);
+}
 }

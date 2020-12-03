@@ -18,5 +18,7 @@ public interface ErrorConst {
         String TELEPHONE_IS_INNEGAL ="电话号码格式不正确";
         String BIRTHDAY_IS_NULL = "生日为空";
         String ROLE_IS_INNEGAL = "角色定位不合法";
+        String USER_IS_EXIST = "用户已被注册";
+        String USER_FAIL_REG = "用户注册失败";
     }
 }

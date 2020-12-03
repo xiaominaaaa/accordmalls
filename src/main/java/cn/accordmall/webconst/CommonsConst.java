@@ -18,5 +18,6 @@ public interface CommonsConst {
     interface UserConst{
         String SUCCESS_USER_LOGIN = "用户登录成功";
         String SUCCESS_USER_LAYOUT = "用户注销成功";
+        String SUCCESS_USER_REG = "用户注册成功";
     }
 }
