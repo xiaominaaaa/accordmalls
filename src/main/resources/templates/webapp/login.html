@@ -7,18 +7,76 @@
 		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
 	</head>
 	<body>
-		<!-------------------login-------------------------->
+	<th:block th:include="webapp/link :: link"></th:block>
+	<!-------------------login-------------------------->
+		<script th:src="@{/js/jquery-1.7.2.min.js}"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 		<div class="login">
-			<form action="#" method="post">
-				<h1><a href="index.html"><img src="img/temp/logo.png"></a></h1>
+			<form action="#" method="post" id="form">
+				<h1><a href="index.html"><img src="/img/temp/logo.png"></a></h1>
 				<p></p>
 				<div class="msg-warn hide"><b></b>公共场所不建议自动登录，以防账号丢失</div>
-				<p><input type="text" name="" value="" placeholder="昵称/邮箱/手机号"></p>
-				<p><input type="text" name="" value="" placeholder="密码"></p>
+				<p><input type="text" name="username"  value="" placeholder="昵称/邮箱/手机号"></p>
+				<p><input type="text" name="password" value="" placeholder="密码"></p>
 				<p><input type="submit" name="" value="登  录"></p>
-				<p class="txt"><a class="" href="reg.html">免费注册</a><a href="forget.html">忘记密码？</a></p>
+				<p class="txt"><a class="" href="/user/reg">免费注册</a><a href="forget.html">忘记密码？</a></p>
 			</form>
 		</div>
+		<script>
+			$().ready(function() {
+				layui.use('layer', function(){
+					var layer = layui.layer;
+				});
+				// 在键盘按下并释放及提交后验证提交表单
+				$("#form").validate({
+					rules: {
+						username:{
+							required: true,
+							minlength: 3,
+
+						},
+						password: {
+							required: true,
+							minlength: 4,
+							maxlength:16
+						},
+
+					},
+					messages: {
+						username:{
+							required: "用户名不能为空",
+							minlength: "用户名不能少于三个",
+						},
+						password: {
+							required: "密码不能为空",
+							minlength: "密码最少输入四个",
+							maxlength:"密码最多输入16个"
+						}
+					}
+					,
+					submitHandler:function(form){
+						$.ajax(
+								{
+									url:"/user/auth",
+									type:"POST",
+									dataType:"json",
+									data:$("#form").serialize(),
+									success:function (result) {
+										if(result.errorCode == 'success'){
+											layer.alert(result.msg, {icon: 6},function () {
+												window.location.href = "/";
+											});
+										}
+										if(result.errorCode == 'fail'){
+											layer.alert(result.msg, {icon: 5});
+										}
+									}
+								}
+						)
+					}
+				})
+			});
+		</script>
 		
 	</body>
 </html>
