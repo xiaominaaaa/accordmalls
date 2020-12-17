@@ -48,6 +48,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public APIResponse auth(String username, String password) {
+        try {
+            String userpass = CommonsUtil.md5Pass(username+password);
+            QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
+            queryWrapper.eq("user_name",username).eq("password",userpass);
+            User user = userMapper.selectOne(queryWrapper);
+            if(user != null){
+                return APIResponse.successMsg(CommonsConst.UserConst.SUCCESS_USER_LOGIN);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return APIResponse.failMsg(ErrorConst.UserError.USER_IS_EMPIY);
+    }
+
+    @Override
     public APIResponse reg(User user) {
         //用户名是否重复
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
@@ -69,4 +85,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         return APIResponse.failMsg(ErrorConst.UserError.USER_FAIL_REG);
 }
+
+    @Override
+    public APIResponse userChangeInfo(User user) {
+        Integer flag = userMapper.changeUser(user);
+        if(flag > 0)
+            return APIResponse.successMsg(CommonsConst.UserConst.SUCCESS_USER_INFO);
+        return APIResponse.failMsg(ErrorConst.UserError.USER_FAIL_REG);
+    }
+
+    @Override
+    public APIResponse userChangePass(User user,String oldpass) {
+        //验证密码
+        APIResponse api = this.auth(user.getUserName(),oldpass);
+        if(api.getErrorCode().equals(CommonsConst.APICommonsConst.FAIL_CODE)){
+            return  APIResponse.failMsg(ErrorConst.UserError.ERROR_PASS);
+        }
+
+        //重设密码
+        String md5pass = null;
+        try {
+             md5pass = CommonsUtil.md5Pass(user.getUserName()+user.getPassword());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        user.setPassword(md5pass);
+        Integer flag = userMapper.changeUser(user);
+        if(flag > 0)
+            return APIResponse.successMsg(CommonsConst.UserConst.SUCCESS_USER_INFO);
+        return APIResponse.failMsg(ErrorConst.UserError.USER_FAIL_REG);
+    }
 }

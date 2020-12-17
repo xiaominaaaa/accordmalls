@@ -1,7 +1,9 @@
 package cn.accordmall.controller;
 
 
+import cn.accordmall.pojo.model.Address;
 import cn.accordmall.pojo.model.User;
+import cn.accordmall.service.IAddressService;
 import cn.accordmall.service.IUserService;
 import cn.accordmall.util.APIResponse;
 import cn.accordmall.webconst.CommonsConst;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -34,6 +37,36 @@ import java.time.LocalDateTime;
 public class UserController extends BaseController {
     @Autowired
     IUserService userService;
+    @Autowired
+    IAddressService addressService;
+
+    @ApiOperation("个人中心页面")
+    @GetMapping({"/index"})
+    public String info(){
+        return "webapp/mygxin";
+    }
+
+    @ApiOperation("地址管理页面")
+    @GetMapping("/address")
+    public String addressInfo(HttpServletRequest request){
+        //联系人列表
+        List<Address> list = addressService.getAddressByUserId(((User)request.getSession().getAttribute(WebConst.USER_SESSION)).getUserId());
+
+        request.setAttribute("addresss",list);
+        return "webapp/address";
+    }
+
+    @ApiOperation("个人信息页面")
+    @GetMapping({"/info"})
+    public String userInfo(){
+        return "webapp/mygrxx";
+    }
+
+    @ApiOperation("用户密码页")
+    @GetMapping({"/pass"})
+    public String userPass(){
+        return "webapp/remima";
+    }
 
     @PostMapping("/auth")
     @ApiOperation("用户验证")
@@ -124,6 +157,71 @@ public class UserController extends BaseController {
         return userService.reg(user);
     }
 
+
+    @PostMapping("/change/info")
+    @ApiOperation("修改用户基本信息")
+    @ResponseBody
+    public APIResponse userChangeInfo(HttpServletRequest request,
+                           @RequestParam(name = "username")
+                           @ApiParam(name = "username",required = true,value = "用户名")
+                                   String username,
+                           @RequestParam(name = "sex",defaultValue = "1",required = false)
+                           @ApiParam(name = "sex",required = true,value = "性别")
+                                   Integer sex,
+                           @RequestParam(name = "telephone")
+                           @ApiParam(name = "telephone",required = true,value = "电话号码")
+                                   String telephone,
+                           @RequestParam(name = "birthday",required = false)
+                           @ApiParam(name = "birthday",required = true,value = "生日")
+                                   String birthday,
+                           @RequestParam(name = "userId",required = false)
+                           @ApiParam(name = "userId",required = true,value = "用户id")
+                                    Integer userId
+    ){
+        if(StringUtils.isBlank(username))
+            return APIResponse.failMsg(ErrorConst.UserError.USERNAME_IS_NULL);
+        if(sex == null & (sex != 1 || sex != 0))
+            return APIResponse.failMsg(ErrorConst.UserError.SEX_IS_OTHER);
+        if(StringUtils.isBlank(telephone))
+            return APIResponse.failMsg(ErrorConst.UserError.TELEPHONE_IS_INNEGAL);
+
+        String[] localArr = birthday.split("-");
+        LocalDate bir  =LocalDate.of(Integer.parseInt(localArr[0]),Integer.parseInt(localArr[1]),Integer.parseInt(localArr[2]));
+
+        User user = new User();
+        user.setUserName(username);
+        user.setSex(sex+"");
+        user.setBirthday(bir);
+        user.setTelephone(telephone);
+        user.setUserId(userId);
+        return userService.userChangeInfo(user);
+    }
+
+
+    @PostMapping("/change/pass")
+    @ApiOperation("修改用户基本信息")
+    @ResponseBody
+    public APIResponse userChangepass(HttpServletRequest request,
+                                      @RequestParam(name = "username",required = false)
+                                      @ApiParam(name = "username",required = true,value = "密码")
+                                              String username,
+                                      @RequestParam(name = "newpass",required = false)
+                                      @ApiParam(name = "newpass",required = true,value = "新密码")
+                                              String password,
+                                      @RequestParam(name = "password",required = false)
+                                      @ApiParam(name = "password",required = true,value = "旧密码")
+                                                  String oldpass,
+                                      @RequestParam(name = "userId",required = false)
+                                      @ApiParam(name = "userId",required = true,value = "用户id")
+                                              Integer userId
+    ){
+
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserName(username);
+        user.setPassword(password);
+        return userService.userChangePass(user,oldpass);
+    }
 
 }
 

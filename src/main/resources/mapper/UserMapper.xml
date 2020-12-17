@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.accordmall.mapper.UserMapper">
+    <!--基本表-->
+    <sql id="BASE_TABLE">
+        user
+    </sql>
 
+    <select id="selectUserDESC" parameterType="java.lang.Integer" resultType="cn.accordmall.pojo.model.User">
+        select user_id, user_name, sex, telephone, birthday, role, join_date from user where user_id = #{user_id};
+    </select>
+
+    <!--修改用户-->
+    <update id="changeUser" parameterType="cn.accordmall.pojo.model.User">
+        update
+        <include refid="BASE_TABLE"></include>
+        <set>
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+        </set>
+        <where>
+            user_id = #{userId}
+        </where>
+    </update>
 </mapper>

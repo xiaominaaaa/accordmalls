@@ -6,6 +6,9 @@ import org.apache.commons.lang3.StringUtils;
  * 网站错误常量
  */
 public interface ErrorConst {
+
+    String FIAL_MSG = "当前网络繁忙，请稍后重试！";
+
     /**
      * 用户
      */
@@ -20,5 +23,29 @@ public interface ErrorConst {
         String ROLE_IS_INNEGAL = "角色定位不合法";
         String USER_IS_EXIST = "用户已被注册";
         String USER_FAIL_REG = "用户注册失败";
+        String USER_IS_REAL_EMPTY = "用户不存在";
+        String ERROR_PASS = "密码错误";
+    }
+
+    /**
+     * 商品
+     */
+    interface  CommdityError{
+        String STOCK_IS_LESS = "库存不足";
+    }
+
+    /**
+     * 购物车
+     */
+    interface CartError{
+        String FAIL_ADD_CART = "添加购物车失败";
+    }
+
+    /**
+     * 联系人
+     */
+    interface AddressError{
+        String FAIL_ADDRESS_OVERFLOW = "联系人不能大于3个";
+        String FAIL_ADD_ADDRESS = "添加联系失败";
     }
 }

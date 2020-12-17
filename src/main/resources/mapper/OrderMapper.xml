@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.accordmall.mapper.OrderMapper">
+    <!--基本表-->
+    <sql id="BASE_TABLE">
+     order
+    </sql>
 
+    <!--数据查询对象的结果封装-->
+    <resultMap id="orderDto" type="cn.accordmall.pojo.dto.OrderDto">
+        <!--order-->
+        <association property="order" javaType="cn.accordmall.pojo.model.Order" column="order_id" select="selectAll">
+        </association>
+        <!--user-->
+        <association property="user" javaType="cn.accordmall.pojo.model.User" column="user_id" select="cn.accordmall.mapper.UserMapper.selectUserDESC">
+        </association>
+        <!--address-->
+        <association property="address" javaType="cn.accordmall.pojo.model.Address" column="user_id" select="cn.accordmall.mapper.AddressMapper.selectAddressByUserid">
+        </association>
+    </resultMap>
+    <resultMap id="orderMap" type="cn.accordmall.pojo.model.Order">
+        <id property="orderId" column="order_id"></id>
+        <result property="userId" column="user_id"></result>
+        <result property="addressId" column="address_id"></result>
+        <result property="orderPrices" column="order_prices"></result>
+        <result property="paymentTime" column="payment_time"></result>
+        <result property="orderState" column="order_state"></result>
+        <result property="evaluateState" column="evaluate_state"></result>
+    </resultMap>
+
+    <!--查询所有订单实体，因为订单表 order 是关键字-->
+    <select id="selectAll" parameterType="java.lang.Integer" resultType="cn.accordmall.pojo.model.Order">
+        select * from `order` where order_id = #{orderId}
+    </select>
+
+    <!--查询所有订单-->
+    <select id="getOrderAll" resultMap="orderDto">
+       select os.*,o.user_id  from orderdetails os LEFT JOIN `order` o on os.order_id = o.order_id
+    </select>
 </mapper>

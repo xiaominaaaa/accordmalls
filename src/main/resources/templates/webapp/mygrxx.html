@@ -3,48 +3,19 @@
 	<head lang="en">
 		<meta charset="utf-8" />
 		<title>个人信息</title>
-		<link rel="stylesheet" type="text/css" href="css/public.css"/>
-		<link rel="stylesheet" type="text/css" href="css/mygrxx.css" />
+		<link rel="stylesheet" type="text/css" href="/css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/mygrxx.css" />
 	</head>
 	<body>
-		<!------------------------------head------------------------------>
-		<div class="head ding">
-			<div class="wrapper clearfix">
-				<div class="clearfix" id="top">
-					<h1 class="fl"><a href="index.html"><img src="img/logo.png"/></a></h1>
-					<div class="fr clearfix" id="top1">
-						<p class="fl">
-							<a href="#" id="login">登录</a>
-							<a href="#" id="reg">注册</a>
-						</p>
-						<form action="#" method="get" class="fl">
-							<input type="text" placeholder="搜索" />
-							<input type="button" />
-						</form>
-						<div class="btn fl clearfix">
-							<a href="mygxin.html"><img src="img/grzx.png"/></a>
-							<a href="#" class="er1"><img src="img/ewm.png"/></a>
-							<a href="cart.html"><img src="img/gwc.png"/></a>
-							<p><a href="#"><img src="img/smewm.png"/></a></p>
-						</div>
-					</div>
-				</div>
-				<ul class="clearfix" id="bott">
-					<li><a href="index.html">首页</a></li>
-					<li><a href="flowerDer.html">装饰摆件</a></li>
-					<li><a href="decoration.html">布艺软饰</a></li>
-					<li><a href="paint.html">墙式壁挂</a></li>
-					<li><a href="perfume.html">蜡艺香薰</a></li>
-					<li><a href="idea.html">创意家居</a></li>
-				</ul>
-			</div>
-		</div>
+	<th:block th:include="webapp/link::link"></th:block>
+	<!------------------------------head------------------------------>
+	<th:block th:include="webapp/head::userhead"></th:block>
 		<!------------------------------idea------------------------------>
 		<div class="address mt">
 			<div class="wrapper clearfix">
-				<a href="index.html" class="fl">首页</a>
+				<a href="/" class="fl">首页</a>
 				<span>/</span>
-				<a href="mygxin.html" class="on">个人信息</a>
+				<a href="/user/info" class="on">个人信息</a>
 			</div>
 		</div>
 		
@@ -53,39 +24,39 @@
 			<div class="wrapper clearfix">
 				<div class="zuo fl">
 					<h3>
-						<a href="#"><img src="img/tx.png"/></a>
-						<p class="clearfix"><span class="fl">[羊羊羊]</span><span class="fr">[退出登录]</span></p>
+						<a href="#"><img src="/img/tx.png"/></a>
+						<p class="clearfix"><span class="fl" th:text="${'['+#session.getAttribute('user_session').userName}+']'"></span><span class="fr">[退出登录]</span></p>
 					</h3>
 					<div>
 						<h4>我的交易</h4>
 						<ul>
-							<li><a href="cart.html">我的购物车</a></li>
+							<li><a href="/cart/index">我的购物车</a></li>
 							<li><a href="myorderq.html">我的订单</a></li>
 							<li><a href="myprod.html">评价晒单</a></li>
 						</ul>
 						<h4>个人中心</h4>
 						<ul>
-							<li><a href="mygxin.html">我的中心</a></li>
-							<li><a href="address.html">地址管理</a></li>
+							<li ><a href="/user/index">我的中心</a></li>
+							<li><a href="/user/address">地址管理</a></li>
 						</ul>
 						<h4>账户管理</h4>
 						<ul>
-							<li  class="on"><a href="mygrxx.html">个人信息</a></li>
-							<li><a href="remima.html">修改密码</a></li>
+							<li class="on"><a href="/user/info">个人信息</a></li>
+							<li><a href="/user/pass/change">修改密码</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="you fl">
 					<h2>个人信息</h2>
 					<div class="gxin">
-						<div class="tx"><a href="#"><img src="img/tx.png"/><p id="avatar">修改头像</p></a></div>
+						<div class="tx"><a href="#"><img src="/img/tx.png"/><p id="avatar">修改头像</p></a></div>
 						<div class="xx">
 							<br />
-							<h3 class="clearfix"><strong class="fl">基础资料</strong><a href="#" class="fr" id="edit1">编辑</a></h3>
-							<div>姓名：六六六</div>
-							<div>电话：18674628152</div>
-							<div>生日：1995-06-06</div>
-							<div>性别：女</div>
+							<h3 class="clearfix"><strong class="fl">基础资料</strong><a onclick="userUpdate()" class="fr" id="">编辑</a></h3>
+							<div th:text="'姓名：'+${#session.getAttribute('user_session').userName}">六六六</div>
+							<div th:text="'电话：'+${#session.getAttribute('user_session').telephone}">18674628152</div>
+							<div th:text="'生日：'+${#session.getAttribute('user_session').birthday}">生日：1995-06-06</div>
+							<div th:text="'性别：'+${#session.getAttribute('user_session').sex eq '1'?'男':'女'}">性别：女</div>
 						</div>
 					</div>			
 				</div>
@@ -94,27 +65,40 @@
 		<!--遮罩-->
 		<div class="mask"></div>
 		<!--编辑弹框-->
-		<div class="bj">
-			<div class="clearfix"><a href="mygrxx.html" class="fr gb"><img src="img/icon4.png"/></a></div>
-			<h3>编辑基础资料</h3>
-			<form action="#" method="get">
-				<p><label>姓名：</label><input type="text"  value="六六六" style="width: 240px; height: 25px;"/></p>
-				<p><label>电话：</label><input type="text"  style="width: 240px; height: 25px;" /></p>
-				<p><label>生日：</label><input type="text"  style="width: 240px; height: 25px;" /></p>
-				<p>
-					<label>性别：</label>
-					<span><input type="radio" checked="checked" style="width: 20px; height: 10px;" />男</span>
-					<span><input type="radio"  style="width: 20px; height: 10px;"/>女</span>
-				</p>
-				<div class="bc">
-					<input type="button" value="保存"  />
-					<input type="button" value="取消" />
+	<!--layui 表单-->
+	<div id="dis" style="display:none">
+		<form class="layui-form" action="" id="formaddress">
+			<div class="layui-form-mid layui-word-aux"></div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="username"  required  lay-verify="required" placeholder="姓名" autocomplete="off" class="layui-input">
 				</div>
-			</form>
-		</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">手机号</label>
+				<div class="layui-input-inline">
+					<input type="text" name="telephone" required lay-verify="required" placeholder="手机号码" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">生日</label>
+				<div class="layui-input-inline">
+					<input type="date" name="birthday" required lay-verify="required" placeholder="生日" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block">
+					<input type="radio" name="sex" value="1" title="男">
+					<input type="radio" name="sex" value="0" title="女" checked>
+				</div>
+			</div>
+		</form>
+	</div>
 		<!--修改头像-->
 		<div class="avatar">
-			<div class="clearfix"><a href="#" class="fr gb"><img src="img/icon4.png"/></a></div>
+			<div class="clearfix"><a href="#" class="fr gb"><img src="/img/icon4.png"/></a></div>
 			<h3>修改头像</h3>
 			<form action="#" method="get">
 				<h4>请上传图片</h4>
@@ -125,60 +109,101 @@
 		</div>
 		
 		<!--返回顶部-->
-		<div class="gotop">
-			<a href="cart.html">
-			<dl>
-				<dt><img src="img/gt1.png"/></dt>
-				<dd>去购<br />物车</dd>
-			</dl>
-			</a>
-			<a href="#" class="dh">
-			<dl>
-				<dt><img src="img/gt2.png"/></dt>
-				<dd>联系<br />客服</dd>
-			</dl>
-			</a>
-			<a href="mygxin.html">
-			<dl>
-				<dt><img src="img/gt3.png"/></dt>
-				<dd>个人<br />中心</dd>
-			</dl>
-			</a>
-			<a href="#" class="toptop" style="display: none">
-			<dl>
-				<dt><img src="img/gt4.png"/></dt>
-				<dd>返回<br />顶部</dd>
-			</dl>
-			</a>
-			<p>400-800-8200</p>
-		</div>
+	<th:block th:replace="webapp/gotop::gotop"></th:block>
 		<!--footer-->
-		<div class="footer">
-			<div class="top">
-				<div class="wrapper">
-					<div class="clearfix">
-						<a href="#2" class="fl"><img src="img/foot1.png"/></a>
-						<span class="fl">7天无理由退货</span>
-					</div>
-					<div class="clearfix">
-						<a href="#2" class="fl"><img src="img/foot2.png"/></a>
-						<span class="fl">15天免费换货</span>
-					</div>
-					<div class="clearfix">
-						<a href="#2" class="fl"><img src="img/foot3.png"/></a>
-						<span class="fl">满599包邮</span>
-					</div>
-					<div class="clearfix">
-						<a href="#2" class="fl"><img src="img/foot4.png"/></a>
-						<span class="fl">手机特色服务</span>
-					</div>
-				</div>
-			</div>
-			<p class="dibu">雅阁家居&copy;2013-2017公司版权所有 京ICP备080100-44备0000111000号<br />
-			违法和不良信息举报电话：400-800-8200，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
-		</div>
-		<script src="js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/user.js" type="text/javascript" charset="utf-8"></script>
+	<th:block th:replace="webapp/gotop::footer"></th:block>
+	<script>
+		layui.use(['layer'], function(){
+			var layer = layui.layer;
+		});
+	</script>
+	<script>
+		function userinfo(ajax) {
+			layui.use(['layer', 'form'], function(){
+				var layer = layui.layer;
+				var form = layui.form;
+				//监听提交
+				form.on('submit(formDemo)', function(data){
+					layer.msg(JSON.stringify(data.field));
+					return false;
+				});
+			});
+			/**
+			 *
+			 0: {name: "username", value: ""}
+			 1: {name: "telephone", value: ""}
+			 2: {name: "postal", value: "2020-12-13"}
+			 3: {name: "sex", value: "1"}
+			 */
+			layer.open({
+				type: 1
+				,title:"保存用户信息"
+				,area:['56%','66%']
+				,btn: ['确定', '取消']
+				,content: $('#dis')
+				,  yes: function(index, layero){
+					//表单验证
+					var arr = $('#formaddress').serializeArray()
+					console.log(arr)
+					if(arr[0].value.length < 2  || arr[0].value.length > 20){
+						layer.alert("用户名不能小于2个或者大于20个", {icon: 5});
+						return;
+					}
+					var reg = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;
+					if(!reg.test(arr[1].value)){
+						layer.alert("电话号码格式不正确", {icon: 5});
+						return;
+					}
+					if(arr[2].value == ""){
+						layer.alert("生日不能为空", {icon: 5});
+						return;
+					}
+					console.log($("#formaddress").serialize())
+					$.ajax(
+							{
+								url:ajax.url,
+								type:"POST",
+								dataType:"json",
+								data:$("#formaddress").serialize()+"&userId=[[${#session.getAttribute('user_session').userId}]]"+ajax.data,
+								success:function (result) {
+									if(result.errorCode == 'success'){
+										layer.alert(result.msg+",请重新登录", {icon: 6},function () {
+											//刷新
+											window.location.href = "/user/login";
+										});
+									}
+									if(result.errorCode == 'fail'){
+										layer.alert(result.msg, {icon: 5});
+									}
+								}
+							}
+					)
+				},
+				btn2: function(index, layero){
+					//按钮【按钮二】的回调
+					//清空内容
+				},
+				cancel :function () {
+					//清空内容
+				}
+			});
+		}
+		
+		function userUpdate() {
+			$("input[name=username]").val("[[${#session.getAttribute('user_session').userName}]]")
+			$("input[name=telephone]").val("[[${#session.getAttribute('user_session').telephone}]]")
+			$("input[name=birthday]").val("[[${#session.getAttribute('user_session').birthday}]]")
+			var sex =$("input[name=sex]");
+			console.log(sex.val())
+			if("[[${#session.getAttribute('user_session').sex}]]" == "1"){
+				sex.eq(0).attr("checked","checked");
+			}
+			userinfo({
+				url: '/user/change/info',
+				data:''
+			})
+		}
+		
+	</script>
 	</body>
 </html>

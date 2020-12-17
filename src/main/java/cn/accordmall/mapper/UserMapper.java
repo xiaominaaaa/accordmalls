@@ -15,4 +15,11 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    Integer changeUser(User user);
+
 }

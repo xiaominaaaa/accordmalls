@@ -8,14 +8,21 @@
 </head>
 <body>
 <!------------------------------head------------------------------>
+<th:block th:include="webapp/link :: link"></th:block>
 <div class="head">
     <div class="wrapper clearfix">
         <div class="clearfix" id="top">
             <h1 class="fl"><a href="index.html"><img src="img/logo.png"/></a></h1>
             <div class="fr clearfix" id="top1">
                 <p class="fl">
-                    <a href="login.html" id="login">登录</a>
-                    <a th:href="@{/user/reg}" id="reg">注册</a>
+                    <th:block th:if="${#session.getAttribute('user_session') == null}">
+                        <a th:href="@{/user/login}" id="login">登录</a>
+                        <a th:href="@{/user/reg}" id="reg">注册</a>
+                    </th:block>
+                    <th:block th:if="${#session.getAttribute('user_session') != null}">
+                        <a href="javaScript:void(0)" th:text="${#session.getAttribute('user_session').userName}"></a>
+                        <a href="javaScript:void(0)" onclick="layouts()" id="reg">注销</a>
+                    </th:block>
                 </p>
                 <form action="#" method="get" class="fl">
                     <input type="text" placeholder="热门搜索：干花花瓶"/>
@@ -67,11 +74,12 @@
 </div>
 
 <!------------------------------news------------------------------>
+<!--六个花卉-->
 <div class="news">
     <div class="wrapper">
         <h2><img src="img/ih1.jpg"/></h2>
         <div class="top clearfix">
-            <a href="proDetail.html"><img src="img/n1.jpg"/>
+            <a th:href="@{/comm/prodetail}"><img src="img/n1.jpg"/>
                 <p></p></a>
             <a href="proDetail.html"><img src="img/n2.jpg"/>
                 <p></p></a>
@@ -88,74 +96,34 @@
         </div>
         <h2><img src="img/ih2.jpg"/></h2>
         <div class="flower clearfix tran">
-            <a href="proDetail.html" class="clearfix">
-                <dl>
-                    <dt>
-                        <span class="abl"></span>
-                        <img src="img/flo1.jpg"/>
-                        <span class="abr"></span>
-                    </dt>
-                    <dd>【花艺】七头美丽玫瑰仿真花束</dd>
-                    <dd><span>¥ 79.00</span></dd>
-                </dl>
-            </a>
-            <a href="proDetail.html">
-                <dl>
-                    <dt>
-                        <span class="abl"></span>
-                        <img src="img/flo2.jpg"/>
-                        <span class="abr"></span>
-                    </dt>
-                    <dd>【花艺】七头美丽玫瑰仿真花束</dd>
-                    <dd><span>¥ 79.00</span></dd>
-                </dl>
-            </a>
-            <a href="proDetail.html">
-                <dl>
-                    <dt>
-                        <span class="abl"></span>
-                        <img src="img/flo3.jpg"/>
-                        <span class="abr"></span>
-                    </dt>
-                    <dd>【花艺】七头美丽玫瑰仿真花束</dd>
-                    <dd><span>¥ 79.00</span></dd>
-                </dl>
-            </a>
+            <th:block th:each="flow: ${flower}" th:if="${flowStat.index} < 3">
+                <a th:href="@{/comm/prodetail}+'/'+${flow.commodityId}" class="clearfix">
+                    <dl>
+                        <dt>
+                            <span class="abl"></span>
+                            <img th:src="${flow.commodityPicture}"/>
+                            <span class="abr"></span>
+                        </dt>
+                        <dd th:text="${flow.commodityName}"></dd>
+                        <dd><span>¥ <i th:text="${flow.price}"></i></span></dd>
+                    </dl>
+                </a>
+            </th:block>
         </div>
         <div class="flower clearfix tran">
-            <a href="proDetail.html">
-                <dl>
-                    <dt>
-                        <span class="abl"></span>
-                        <img src="img/flo4.jpg"/>
-                        <span class="abr"></span>
-                    </dt>
-                    <dd>【花艺】七头美丽玫瑰仿真花束</dd>
-                    <dd><span>¥ 79.00</span></dd>
-                </dl>
-            </a>
-            <a href="proDetail.html">
-                <dl>
-                    <dt>
-                        <span class="abl"></span>
-                        <img src="img/flo5.jpg"/>
-                        <span class="abr"></span>
-                    </dt>
-                    <dd>【花艺】七头美丽玫瑰仿真花束</dd>
-                    <dd><span>¥ 79.00</span></dd>
-                </dl>
-            </a>
-            <a href="proDetail.html">
-                <dl>
-                    <dt>
-                        <span class="abl"></span>
-                        <img src="img/flo6.jpg"/>
-                        <span class="abr"></span>
-                    </dt>
-                    <dd>【花艺】七头美丽玫瑰仿真花束</dd>
-                    <dd><span>¥ 79.00</span></dd>
-                </dl>
-            </a>
+            <th:block th:each="flow: ${flower}" th:if="${flowStat.index} >= 3">
+                <a th:href="@{/comm/prodetail}+'/'+${flow.commodityId}" class="clearfix">
+                    <dl>
+                        <dt>
+                            <span class="abl"></span>
+                            <img th:src="${flow.commodityPicture}"/>
+                            <span class="abr"></span>
+                        </dt>
+                        <dd th:text="${flow.commodityName}"></dd>
+                        <dd><span>¥ <i th:text="${flow.price}"></i></span></dd>
+                    </dl>
+                </a>
+            </th:block>
         </div>
     </div>
 </div>
@@ -368,6 +336,9 @@
 <script src="js/nav.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/jquery.flexslider-min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+    layui.use('layer', function(){
+        var layer = layui.layer;
+    });
     $(function () {
         $('#home_slider').flexslider({
             animation: 'slide',
@@ -378,8 +349,28 @@
             slideshowSpeed: 2000,
             useCSS: false
         });
-
     });
+    //注销
+    function layouts() {
+        $.ajax(
+            {
+                url:"/user/layout",
+                type:"POST",
+                dataType:"json",
+                data:$("#form").serialize(),
+                success:function (result) {
+                    if(result.errorCode == 'success'){
+                        layer.alert(result.msg, {icon: 6},function () {
+                            window.location.href = "/";
+                        });
+                    }
+                    if(result.errorCode == 'fail'){
+                        layer.alert(result.msg, {icon: 5});
+                    }
+                }
+            }
+        )
+    }
 </script>
 
 

@@ -1,6 +1,8 @@
 package cn.accordmall;
 
+import cn.accordmall.pojo.model.Commodity;
 import cn.accordmall.pojo.model.User;
+import cn.accordmall.service.ICommodityService;
 import cn.accordmall.service.IUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -36,6 +40,21 @@ class AccordmallApplicationTests {
         for (User user : list) {
             System.out.println(user);
         }
+    }
+
+    @Autowired
+    ICommodityService commodityService;
+
+    @Test
+    void test2(){
+    Commodity commodity = new Commodity();
+    commodity.setCategoryId(10000001);
+    commodity.setCommodityName("【花艺】北欧田野清新野菊");
+    commodity.setPrice(new BigDecimal(50));
+    commodity.setLaunchTime(LocalDateTime.now());
+    commodity.setCommodityPicture("/img/flo4.jpg");
+    commodity.setStock(2000);
+    commodityService.save(commodity);
     }
 
 }

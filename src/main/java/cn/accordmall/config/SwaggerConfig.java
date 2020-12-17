@@ -1,5 +1,6 @@
 package cn.accordmall.config;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -29,7 +30,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)) //扫描方法上 ApiOperation 注解
                 .paths(PathSelectors.any()) //扫描全部路径
                 .build()
-                .enable(enable); //是否开启
+                .enable(true); //是否开启
         return docket;
     }
 

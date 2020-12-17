@@ -27,6 +27,7 @@ public class MvcHandlerceptor implements HandlerInterceptor {
             && !uri.startsWith("/assets") && !uri.startsWith("/css") && !uri.startsWith("/font")
             && !uri.startsWith("/images") && !uri.startsWith("/layui") && !uri.startsWith("/img")
             && !uri.startsWith("/products") && !uri.startsWith("/Widget")
+            && !uri.startsWith("/swagger") && !uri.startsWith("/druid")
         ){
            response.sendRedirect("/user/login");
            return false;
